@@ -1,4 +1,4 @@
 **/*.exe
 .vscode
-.py
-.csv
+**/*.py
+**/*.csv
