@@ -1,43 +1,55 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void prim(vector<vector<pair<int, int> > > graph, int V) {
-    vector<int> key(V, INT_MAX);
+struct edge {
+    int u, v, w;
+    bool operator<(const edge &e) {
+        return w < e.w;
+    }
+};
+
+int find(vector<int> &parent, int i) {
+    if (parent[i] == -1) {
+        return i;
+    }
+    return find(parent, parent[i]);
+}
+
+void Union(vector<int> &parent, int x, int y) {
+    int xset = find(parent, x);
+    int yset = find(parent, y);
+    parent[xset] = yset;
+}
+
+void prim(vector<edge> &edges, int V) {
+    sort(edges.begin(), edges.end());
     vector<int> parent(V, -1);
-    vector<bool> mstSet(V, false);
-    key[0] = 0;
-    for (int count = 0; count < V - 1; count++) {
-        int u = -1;
-        for (int i = 0; i < V; i++) {
-            if (!mstSet[i] && (u == -1 || key[i] < key[u])) {
-                u = i;
-            }
-        }
-        mstSet[u] = true;
-        for (auto i : graph[u]) {
-            int v = i.first;
-            int weight = i.second;
-            if (!mstSet[v] && weight < key[v]) {
-                parent[v] = u;
-                key[v] = weight;
-            }
+    vector<edge> result;
+    int i = 0, e = 0;
+    while (e < V - 1) {
+        edge next_edge = edges[i++];
+        int x = find(parent, next_edge.u);
+        int y = find(parent, next_edge.v);
+        if (x != y) {
+            result.push_back(next_edge);
+            Union(parent, x, y);
+            e++;
         }
     }
-    for (int i = 1; i < V; i++) {
-        cout << parent[i] << " - " << i << " " << key[i] << endl;
+    for (auto i : result) {
+        cout << i.u << " - " << i.v << " " << i.w << endl;
     }
 }
 
 int main() {
     int V, E;
     cin >> V >> E;
-    vector<vector<pair<int, int> > > graph(V);
+    vector<edge> edges;
     for (int i = 0; i < E; i++) {
         int u, v, w;
         cin >> u >> v >> w;
-        graph[u].push_back({v, w});
-        graph[v].push_back({u, w});
+        edges.push_back({u, v, w});
     }
-    prim(graph, V);
+    prim(edges, V);
     return 0;
 }
