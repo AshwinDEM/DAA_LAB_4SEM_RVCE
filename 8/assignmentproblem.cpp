@@ -1,15 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <bits/stdc++.h>
+using namespace std;
 
-// Job assigment problem using branch and bound
+// Job assignment problem using branch and bound
 
-void assignment(int mat[4][4], int n)
+void assignment(vector<vector<int>> mat)
 {
-    int assigned[n];
-    for (int i = 0; i < n; i++)
-    {
-        assigned[i] = -1;
-    }
+    int n = mat.size();
+    vector<int> assigned(n, -1);
     int cost = 0;
     int mincost = 0;
     int mincostindex = 0;
@@ -37,19 +34,19 @@ void assignment(int mat[4][4], int n)
     }
     for (int i = 0; i < n; i++)
     {
-        printf("Worker %d assigned to job %d\n", i, assigned[i]);
+        cout << "Worker " << i << " assigned to job " << assigned[i] << endl;
     }
-    printf("Total cost: %d\n", cost);
+    cout << "Total cost: " << cost << endl;
 }
 
 int main()
 {
-    int mat[4][4] = {
+    vector<vector<int>> mat = {
         {9, 2, 7, 8},
         {6, 4, 3, 7},
         {5, 8, 1, 8},
         {7, 6, 9, 4}
     };
-    assignment(mat, 4);
+    assignment(mat);
     return 0;
 }
