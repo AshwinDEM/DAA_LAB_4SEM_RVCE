@@ -37,5 +37,19 @@ vector<int> topographicalsortDFS(unordered_map<int, vector<int>>& graph, int n)
 
 int main()
 {
-
+    int n, m;
+    cin >> n >> m;
+    unordered_map<int, vector<int>> graph;
+    for (int i = 0; i < m; i++)
+    {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+    }
+    vector<int> ans = topographicalsortDFS(graph, n);
+    for (auto i : ans)
+    {
+        cout << i << " ";
+    }
+    return 0;
 }

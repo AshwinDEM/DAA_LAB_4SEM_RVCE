@@ -80,6 +80,22 @@ int* topsort(int g[][100], int n, int s, int t)
 }
 
 int main()
-{
-    
+{   
+    int n = 6;
+    int g[100][100] = {
+        {0, 1, 1, 0, 0, 0},
+        {0, 0, 0, 1, 0, 0},
+        {0, 0, 0, 1, 1, 0},
+        {0, 0, 0, 0, 0, 1},
+        {0, 0, 0, 0, 0, 1},
+        {0, 0, 0, 0, 0, 0}
+    };
+    int s = 0;
+    int t = 5;
+    int* ans = topsort(g, n, s, t);
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d ", ans[i]);
+    }
+    return 0;
 }

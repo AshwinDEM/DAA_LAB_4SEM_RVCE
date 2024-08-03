@@ -14,3 +14,6 @@ Repository for DAA Lab programs in 4th Sem for RVCE
 | 7   | Subset Sum Problem (Using Branch and Bound) | Traveling Salesman Problem                                                                                                                                                                                                             |
 | 8   | N Queens                                    | Assignment Problem                                                                                                                                                                                                                     |
 | 9   |                                             | 1. Matrix Chain Multiplication<br>2. Longest Common Subsequence<br>3. Activity Selection Problem<br>4. Johnson's Algorithm for Sparse Graphs<br>5. Ford Fulkerson Algorithm<br>6. Chinese Remainder Theorem<br>7. Rabin-Karp Algorithm |
+
+
+[![Ashwin's GitHub stats](https://github-readme-stats.vercel.app/api?username=AshwinDEM&show_icons=true)](https://github.com/anuraghazra/github-readme-stats)

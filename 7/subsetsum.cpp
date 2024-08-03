@@ -1,53 +1,71 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// Implementing the subset sum problem using branch and bound using recursion
+
 vector<int> subsetSum(vector<int> arr, int sum)
 {
     int n = arr.size();
-    vector<vector<bool> > dp(n + 1, vector<bool>(sum + 1, false));
-    for (int i = 0; i <= n; i++)
-        dp[i][0] = true;
-    for (int i = 1; i <= n; i++)
+    vector<int> result;
+    vector<int> path;
+    int pathSum = 0;
+    int index = 0;
+    int totalSum = accumulate(arr.begin(), arr.end(), 0);
+    sort(arr.begin(), arr.end(), greater<int>());
+    while (index >= 0)
     {
-        for (int j = 1; j <= sum; j++)
+        if (index >= n)
         {
-            if (arr[i - 1] <= j)
-                dp[i][j] = dp[i - 1][j] || dp[i - 1][j - arr[i - 1]];
-            else
-                dp[i][j] = dp[i - 1][j];
+            if (pathSum == sum)
+            {
+                result = path;
+                break;
+            }
+            index--;
+            if (index < 0)
+            {
+                break;
+            }
+            pathSum -= arr[index];
+            path.pop_back();
+            continue;
         }
-    }
-    vector<int> res;
-    if (!dp[n][sum])
-        return res;
-    int i = n, j = sum;
-    while (i > 0 && j > 0)
-    {
-        if (dp[i - 1][j])
-            i--;
+        if (pathSum + arr[index] <= sum && pathSum + totalSum >= sum)
+        {
+            pathSum += arr[index];
+            path.push_back(arr[index]);
+            index++;
+        }
         else
         {
-            res.push_back(arr[i - 1]);
-            j -= arr[i - 1];
-            i--;
+            index++;
         }
     }
-    return res;
+    return result;
 }
 
 int main()
 {
-    vector<int> arr = {3, 34, 4, 12, 5, 2};
-    int sum = 9;
-    vector<int> res = subsetSum(arr, sum);
-    if (res.size() == 0)
-        cout << "No subset with given sum\n";
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+    }
+    int sum;
+    cin >> sum;
+    vector<int> result = subsetSum(arr, sum);
+    if (result.size() == 0)
+    {
+        cout << "No subset found with the given sum" << endl;
+    }
     else
     {
-        cout << "Subset with given sum: ";
-        for (int i = 0; i < res.size(); i++)
-            cout << res[i] << " ";
-        cout << "\n";
+        for (auto i : result)
+        {
+            cout << i << " ";
+        }
     }
     return 0;
 }

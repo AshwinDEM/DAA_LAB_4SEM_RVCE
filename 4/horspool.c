@@ -38,3 +38,12 @@ void horspool(char *text, int n, char *pattern, int m)
     }
 }
 
+int main()
+{
+    char text[] = "ABAAABCD";
+    char pattern[] = "ABC";
+    int n = sizeof(text) - 1;
+    int m = sizeof(pattern) - 1;
+    horspool(text, n, pattern, m);
+    return 0;
+}

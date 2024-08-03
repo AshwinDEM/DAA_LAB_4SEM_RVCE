@@ -37,3 +37,15 @@ int* heapsort(int arr[], int n)
     }
     return arr;
 }
+
+int main()
+{
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int* sorted = heapsort(arr, n);
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d ", sorted[i]);
+    }
+    return 0;
+}

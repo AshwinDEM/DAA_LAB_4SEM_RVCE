@@ -8,13 +8,12 @@ void dijkstra(vector<vector<int>> graph, int src) {
     vector<bool> visited(V, false);
     
     for (int i = 0; i < V - 1; i++) {
-        // int u = -1;
-        // for (int j = 0; j < V; j++) {
-        //     if (!visited[j] && (u == -1 || dist[j] < dist[u])) {
-        //         u = j;
-        //     }
-        // }
-        int u = min_element(dist.begin(), dist.end()) - dist.begin();
+        int u = -1;
+        for (int j = 0; j < V; j++) {
+            if (!visited[j] && (u == -1 || dist[j] < dist[u])) {
+                u = j;
+            }
+        }
         visited[u] = true;
         for (int j = 0; j < V; j++) {
             if (!visited[j] && graph[u][j]) {// && dist[u] != INT_MAX && dist[u] + graph[u][j] < dist[j]) {
