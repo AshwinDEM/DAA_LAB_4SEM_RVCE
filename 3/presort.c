@@ -9,6 +9,8 @@ int compare(const void *a, const void *b)
 
 bool unique(int arr[], int n)
 {
+    // The next line just sorts the array with inbuild function, I don't know 
+    // if we are allowed to use it in lab, so if they don't allow, use merge sort.
     qsort(arr, n, sizeof(int), compare);
     for (int i = 0; i < n - 1; i++)
     {

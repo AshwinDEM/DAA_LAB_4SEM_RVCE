@@ -3,6 +3,8 @@ using namespace std;
 
 bool unique(vector<int> arr)
 {
+    // The next line just sorts the array with inbuild function, I don't know 
+    // if we are allowed to use it in lab, so if they don't allow, use merge sort.
     sort(arr.begin(), arr.end());
     for (int i = 1; i < arr.size(); i++)
     {
