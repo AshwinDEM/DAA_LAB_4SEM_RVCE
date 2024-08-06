@@ -1,101 +1,49 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <string.h>
 
-double benchmark(int arr[], int n, void* func(int arr[], int n))
-{
-    clock_t start, end;
-    double time_spent;
-    start = clock();
-    func(arr, n);
-    end = clock();
-    time_spent = (double)(end - start) / CLOCKS_PER_SEC;
-    return time_spent;
-}
+#define MAX_NODES 10
 
-void printArray(int arr[], int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
-}
+int index;
 
-void randomarray(int arr[], int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        arr[i] = rand() % 100;
-    }
-}
-
-void asc(int arr[], int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        arr[i] = i;
-    }
-}
-
-void desc(int arr[], int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        arr[i] = n - i;
-    }
-}
-
-int* topsort(int g[][100], int n, int s, int t)
-{
-    int visited[n];
-    for (int i = 0; i < n; i++)
-    {
-        visited[i] = 0;
-    }
-
-    memset(visited, 0, sizeof(visited));
-    int queue[n];
-    int front = 0;
-    int rear = 0;
-    queue[rear] = s;
-    rear = (rear + 1) % n;
-    visited[s] = 1;
-    while (front != rear)
-    {
-        int u = queue[front];
-        front = (front + 1) % n;
-        for (int v = 0; v < n; v++)
-        {
-            if (g[u][v] && !visited[v])
-            {
-                queue[rear] = v;
-                rear = (rear + 1) % n;
-                visited[v] = 1;
-            }
+void dfs(int graph[MAX_NODES][MAX_NODES], int node, int visited[MAX_NODES], int ans[MAX_NODES], int n) {
+    visited[node] = 1;
+    for (int i = 0; i < n; i++) {
+        if (graph[node][i] && !visited[i]) {
+            dfs(graph, i, visited, ans, n);
         }
     }
-    return queue;
+    ans[index--] = node;
 }
 
-int main()
-{   
-    int n = 6;
-    int g[100][100] = {
-        {0, 1, 1, 0, 0, 0},
-        {0, 0, 0, 1, 0, 0},
-        {0, 0, 0, 1, 1, 0},
-        {0, 0, 0, 0, 0, 1},
-        {0, 0, 0, 0, 0, 1},
-        {0, 0, 0, 0, 0, 0}
-    };
-    int s = 0;
-    int t = 5;
-    int* ans = topsort(g, n, s, t);
-    for (int i = 0; i < n; i++)
-    {
+void topologicalSortDFS(int graph[MAX_NODES][MAX_NODES], int n, int ans[MAX_NODES]) {
+    int visited[MAX_NODES] = {0};
+    index = n - 1;
+    for (int i = 0; i < n; i++) {
+        if (!visited[i]) {
+            dfs(graph, i, visited, ans, n);
+        }
+    }
+}
+
+int main() {
+    int n;
+    scanf("%d", &n);
+
+    int graph[MAX_NODES][MAX_NODES];
+    
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &graph[i][j]);
+        }
+    }
+
+    int ans[MAX_NODES];
+
+    topologicalSortDFS(graph, n, ans);
+
+    for (int i = 0; i < n; i++) {
         printf("%d ", ans[i]);
     }
+    printf("\n");
+
     return 0;
 }
