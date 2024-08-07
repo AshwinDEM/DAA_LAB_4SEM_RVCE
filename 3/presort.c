@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <stdlib.h>
 typedef enum { false, true } bool;
 
 int compare(const void *a, const void *b)
