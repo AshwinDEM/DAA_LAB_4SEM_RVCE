@@ -1,71 +1,46 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Implementing the subset sum problem using branch and bound using recursion
+// Implementing the subset sum problem using backtracking
 
-vector<int> subsetSum(vector<int> arr, int sum)
-{
-    int n = arr.size();
-    vector<int> result;
-    vector<int> path;
-    int pathSum = 0;
-    int index = 0;
-    int totalSum = accumulate(arr.begin(), arr.end(), 0);
-    sort(arr.begin(), arr.end(), greater<int>());
-    while (index >= 0)
-    {
-        if (index >= n)
-        {
-            if (pathSum == sum)
-            {
-                result = path;
-                break;
-            }
-            index--;
-            if (index < 0)
-            {
-                break;
-            }
-            pathSum -= arr[index];
-            path.pop_back();
-            continue;
-        }
-        if (pathSum + arr[index] <= sum && pathSum + totalSum >= sum)
-        {
-            pathSum += arr[index];
-            path.push_back(arr[index]);
-            index++;
-        }
-        else
-        {
-            index++;
-        }
+void subsetSumHelper(vector<int>& arr, int sum, int start, vector<int>& path, vector<vector<int>>& result) {
+    if (sum == 0) {
+        result.push_back(path);
+        return;
     }
+
+    for (int i = start; i < arr.size(); i++) {
+        if (arr[i] > sum) continue; // Skip if the current element is greater than the remaining sum
+        path.push_back(arr[i]);
+        subsetSumHelper(arr, sum - arr[i], i + 1, path, result); // Move to the next element
+        path.pop_back(); // Backtrack
+    }
+}
+
+vector<vector<int>> subsetSum(vector<int>& arr, int sum) {
+    vector<vector<int>> result;
+    vector<int> path;
+    subsetSumHelper(arr, sum, 0, path, result);
     return result;
 }
 
-int main()
-{
+int main() {
     int n;
     cin >> n;
     vector<int> arr(n);
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
     int sum;
     cin >> sum;
-    vector<int> result = subsetSum(arr, sum);
-    if (result.size() == 0)
-    {
-        cout << "No subset found with the given sum" << endl;
-    }
-    else
-    {
-        for (auto i : result)
-        {
-            cout << i << " ";
+
+    vector<vector<int>> subsets = subsetSum(arr, sum);
+    for (const auto& subset : subsets) {
+        for (int num : subset) {
+            cout << num << " ";
         }
+        cout << endl;
     }
+
     return 0;
 }
