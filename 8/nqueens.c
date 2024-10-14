@@ -26,36 +26,41 @@ int isSafe(int board[][27], int n, int row, int col)
     return 1;
 }
 
-int solveNQueens(int board[][27], int n, int col)
-{
-    if (col >= n)
-    {
-        return 1;
-    }
-    for (int i = 0; i < n; i++)
-    {
-        if (isSafe(board, n, i, col))
-        {
-            board[i][col] = 1;
-            if (solveNQueens(board, n, col + 1))
-            {
-                return 1;
-            }
-            board[i][col] = 0;
-        }
-    }
-    return 0;
-}
-
 void printSolution(int board[][27], int n)
 {
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
         {
-            printf("%d ", board[i][j]);
+            if (board[i][j])
+            {
+                printf("Q ");
+            }
+            else
+            {
+                printf(". ");
+            }
         }
         printf("\n");
+    }
+    printf("\n");
+}
+
+void solveNQueens(int board[][27], int n, int col)
+{
+    if (col >= n)
+    {
+        printSolution(board, n);  // Print the solution when a valid one is found
+        return;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (isSafe(board, n, i, col))
+        {
+            board[i][col] = 1;   // Place queen
+            solveNQueens(board, n, col + 1);  // Recur to place the rest
+            board[i][col] = 0;   // Backtrack and remove the queen
+        }
     }
 }
 
@@ -72,13 +77,6 @@ int main()
             board[i][j] = 0;
         }
     }
-    if (solveNQueens(board, n, 0))
-    {
-        printSolution(board, n);
-    }
-    else
-    {
-        printf("Solution does not exist\n");
-    }
+    solveNQueens(board, n, 0);  // Find all solutions
     return 0;
 }
